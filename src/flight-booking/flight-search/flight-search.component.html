@@ -1,0 +1,76 @@
+<form #f="ngForm">
+
+<!--
+    <div class="form-group">
+
+        <label>Date:</label>
+        <date-control required name="date" [(ngModel)]="date"></date-control>
+        {{date}}
+    </div>
+-->
+<!--
+    <div class="form-group">
+
+        <label>Date:</label>
+        <input class="form-control"
+               [(ngModel)]="date"
+               name="date2">
+        {{date}}
+    </div>
+-->
+
+        <div class="form-group">
+
+    <label>From:</label>
+    <input
+        class="form-control"
+        [(ngModel)]="from"
+        name="from"
+        required
+        minlength="3"
+        maxlength="30"
+        pattern="[A-Za-z0-9]+">
+
+    <div *ngIf="!f?.controls?.from?.valid">
+        Error
+    </div>
+
+    <div *ngIf="f?.controls?.from?.hasError('required')">
+        Required
+    </div>
+
+    <div *ngIf="f?.controls?.from?.hasError('minlength')">
+        Minlength
+    </div>
+
+    <div *ngIf="f?.controls?.from?.hasError('pattern')">
+        Pattern
+    </div>
+</div>
+
+<div class="form-group">
+    <label>To:</label>
+    <input class="form-control" [(ngModel)]="to" name="to">
+</div>
+
+<div class="form-group">
+    <button class="btn btn-primary" (click)="search()" [disabled]="!from || !to">
+        Search
+    </button>
+</div>
+</form>
+<table class="table table-striped">
+    <tr *ngFor="let f of flights" [ngStyle]="{ 'background-color': (f == selectedFlight) ? 'orange' : ''  }">
+        <td>{{f.id}}</td>
+        <td>{{f.from}}</td>
+        <td>{{f.to}}</td>
+        <td>{{f.date | date:'dd.MM.yyyy'  }}</td>
+        <td><a (click)="select(f)">Select</a></td>
+    </tr>
+</table>
+
+<pre>Warenkorb
+------------------
+{{selectedFlight | json }}
+
+</pre>
