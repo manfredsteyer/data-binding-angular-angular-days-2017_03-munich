@@ -2,7 +2,7 @@ import { Directive, Renderer, ElementRef, Self, forwardRef, HostListener } from 
 import {NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Directive({
-    selector: '[date]',
+    selector: '[date]', // <input date>
     providers: [{
         provide: NG_VALUE_ACCESSOR,
         useExisting: forwardRef(() => DateValueAccessor),
@@ -13,10 +13,15 @@ export class DateValueAccessor implements ControlValueAccessor {
     onChange = (_: any) => {};
     onTouched = () => {};
 
-    constructor(private _renderer: Renderer, private _elementRef: ElementRef) {}
+    constructor(private _renderer: Renderer, private _elementRef: ElementRef) {
+    }
 
-    registerOnChange(fn: (_: any) => void): void { this.onChange = fn; }
-    registerOnTouched(fn: () => void): void { this.onTouched = fn; }
+    registerOnChange(fn: (_: any) => void): void {
+        this.onChange = fn;
+    }
+    registerOnTouched(fn: () => void): void {
+        this.onTouched = fn;
+    }
 
     @HostListener('blur')
     blur() {
@@ -50,7 +55,10 @@ export class DateValueAccessor implements ControlValueAccessor {
         }
 
         var normalizedValue = (value) ? value : '';
-        this._renderer.setElementProperty(this._elementRef.nativeElement, 'value', normalizedValue);
+        this._renderer.setElementProperty(
+            this._elementRef.nativeElement,
+            'value',
+            normalizedValue);
 
     }
 
